@@ -100,7 +100,7 @@
             <p><strong>Email:</strong> in.culcate@gmail.com</p>
             <p><strong>Address:</strong> NH144, Chowk, Bahalgarh, Sonipat, Haryana 131021</p>
         </div>
-        <form class="contact-form">
+<!--         <form class="contact-form">
             <label>First Name
             <input type="text" placeholder="First Name" required>
             </label>
@@ -120,13 +120,79 @@
             </select>
             <textarea rows="5" placeholder="Message" required></textarea>
             <button type="submit">Send Message</button>
-        </form>
+        </form> -->
+        <form class="contact-form" id="contactForm">
+    <label>First Name
+        <input type="text" id="firstName" placeholder="First Name" required>
+    </label>
+    <label>Last Name
+        <input type="text" id="lastName" placeholder="Last Name" required>
+    </label>
+    <label>Email
+        <input type="email" id="email" placeholder="Email" required>
+    </label>
+    <label>Phone Number
+        <input type="text" id="phoneNumber" placeholder="Phone Number" required>
+    </label>
+    <select id="subject" required>
+        <option value="">Select Subject</option>
+        <option value="general">General Inquiry</option>
+        <option value="business">Business Inquiry</option>
+    </select>
+    <textarea id="message" rows="5" placeholder="Message" required></textarea>
+    <button type="submit">Send Message</button>
+</form>
+
     </section>
 
 
     <footer class="footer">
         <p>&copy; 2024 in.culcate.</p>
     </footer>
+
+
+<!--json integration -->
+
+    <script>
+    // Bin ID from npoint
+    const binId = "d080f43f4381f06ac9b1";  // Replace with your actual Bin ID
+
+    // Handle form submission
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        // Capture form data
+        const formData = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            email: document.getElementById("email").value,
+            phoneNumber: document.getElementById("phoneNumber").value,
+            subject: document.getElementById("subject").value,
+            message: document.getElementById("message").value
+        };
+
+        // Send the data to npoint using fetch API
+        fetch(`https://api.npoint.io/${binId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert("Message sent successfully!");
+            console.log(data);
+        })
+        .catch(error => {
+            console.error("Error submitting form:", error);
+            alert("There was an error submitting your message. Please try again.");
+        });
+
+        // Reset the form after submission
+        document.getElementById("contactForm").reset();
+    });
+</script>
 
 
 </body>
